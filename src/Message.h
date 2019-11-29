@@ -1,12 +1,12 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#define TAM_MAX_DATA 16
+#define TAM_MAX_DATA 100
 
 class Message {
 	public:
 		enum kindMessages: int {request = 0, reply};
-		enum allowedOperations: int {takeScreenshot = 0, requestSizeIm};
+		enum allowedOperations: int {readWords};
 
 		Message::kindMessages messageType;    
 		unsigned int requestId;

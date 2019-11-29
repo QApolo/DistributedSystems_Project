@@ -2,6 +2,7 @@
 #include <fstream>
 #include <set>
 #include <locale.h>
+#include <vector>
 
 class Dictionary {
     private:
@@ -46,5 +47,15 @@ class Dictionary {
         bool isWordInDictionary(std::string &word)
         {
             return (existsWord.find(word) != existsWord.end());
+        }
+        int countNotFound(const std::vector<std::string> &words)
+        {
+            int cont = 0;
+            for(auto w: words)
+            {
+                if(!isWordInDictionary(w))
+                cont++;
+            }
+            return cont;
         }
 };
