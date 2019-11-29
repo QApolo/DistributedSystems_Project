@@ -16,22 +16,19 @@ $(document).ready(function(e){
     /*aquí va la parte para mandar el archivo al back*/
     var fiData = $("#archivo_in").prop('files')[0];
     var nfile = fiData.name
-    //console.log("Nombre de archivo: ".concat(nfile));
-    //var foData = new FormData();
-    //foData.append('file', fiData)
 
-    $.ajax({  url : 'scripts/run.php',
-              //url: http://10.100.66.112:8000, /*Diego addr*/
-              data: {nFile:nfile},
-              //data: foData,
-              beforeSend: function(){
-                $("#progressbar").show()
-              },
-              complete: function(){
-                $("#progressbar").hide()
-              }
-    }).done( function(data){ console.log(data); });
+    $.ajax({
+        type: 'POST',
+        // make sure you respect the same origin policy with this url:
+        // http://en.wikipedia.org/wiki/Same_origin_policy
+        url: "http://10.100.66.112:8000",
+        data: {nFile:nfile},
+        success: function(msg){
+            alert('wow' + msg);
+        }
+    });
   })
+
 });
 
 //Barra de carga
