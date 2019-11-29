@@ -1,0 +1,51 @@
+/* General */
+body{
+  background-image: url("assets/background.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Dividers*/
+div.contenedor_botones {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  width: 100px;
+  height: 100px;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Botones */
+.boton{
+  background: rgba(245, 245, 245, 0.25);
+  border:solid 2px rgba(255, 255, 255, 0.8);
+  border-radius: 60px;
+  color: rgba(255, 255, 255, 0.95);
+  padding: 30px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.boton_in{
+  background: rgba(245, 245, 245, 0.25);
+  border:solid 2px rgba(255, 255, 255, 0.8);
+  border-radius: 60px;
+  color: rgba(255, 255, 255, 0.95);
+  padding: 30px 60px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+
+  display: none;
+}
+/**/
