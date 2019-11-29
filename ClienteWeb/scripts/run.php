@@ -7,9 +7,12 @@
 
   $cmd = "./prueba $filename";
 
-  var_dump($cmd);
+  $cmd_def = escapeshellcmd($cmd);
 
-  $salida = shell_exec( "(cd ../../CarpetaPruebas; $cmd)" );
+  //var_dump($cmd);
+  //var_dump($cmd_def);
+
+  $salida = shell_exec( "(cd ../../CarpetaPruebas; $cmd_def)" );
 
   //echo "<pre>$salida</pre>";
   //print_r($salida);
