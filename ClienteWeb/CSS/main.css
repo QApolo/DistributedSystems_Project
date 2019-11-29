@@ -7,6 +7,18 @@ body{
 }
 
 /* Dividers*/
+div.main_d {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  width: 100px;
+  height: 100px;
+
+  align-items: center;
+}
+
 div.contenedor_botones {
   position: absolute;
   top: 50%;
@@ -20,6 +32,12 @@ div.contenedor_botones {
   align-items: center;
   text-align: center;
   justify-content: center;
+}
+
+div.bar_div {
+  width: 100%;
+
+  display: none;
 }
 
 /* Botones */
@@ -48,4 +66,12 @@ div.contenedor_botones {
 
   display: none;
 }
-/**/
+/* Barra de carga */
+.barrita {
+  background: red;
+  display: block;
+  height: 20px;
+  text-align: center;
+  transition: width .3s;
+  width: 0;
+}
