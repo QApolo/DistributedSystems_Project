@@ -1,20 +1,13 @@
 <?php
-  $filename = $_GET['nFile'];
-  //$salida =  shell_exec('ls -lart');
-  //$salida =  shell_exec('./Cliente '.$filename);
+  $filename = $_GET['nFile'];           //Obtener de JS el nombre del cliente
+  $fil_def = escapeshellarg($filename); //Ajustar cadena para ser compatible en un shell
 
-  //$salida = shell_exec('(cd ..; /CarpetaPruebas/prueba)');
+  $cmd = "./prueba $fil_def";           //Concatenar argumento a un comando sh
 
-  $cmd = "./prueba $filename";
+  var_dump($fil_def);                   //Mostrar en consola web argumento
+  var_dump($cmd);                       //Mostrar en consola web comando
 
-  $cmd_def = escapeshellcmd($cmd);
+  $salida = shell_exec( "(cd ../../CarpetaPruebas; $cmd)" ); //Retorno del comando shell
 
-  //var_dump($cmd);
-  //var_dump($cmd_def);
-
-  $salida = shell_exec( "(cd ../../CarpetaPruebas; $cmd_def)" );
-
-  //echo "<pre>$salida</pre>";
-  //print_r($salida);
-  var_dump($salida);
+  var_dump($salida);                    //Mostrar en consola web salida
 ?>
