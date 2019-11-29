@@ -25,26 +25,36 @@ int total_words = 0;
 void sendWord(const string & ip, uint16_t puerto, string *reg) {
 	size_t len_reply;
   try {
+    cout << "from sendWord: ";
+    cout << *reg << endl;
+    cout << ip << " " << puerto << '\n';
+    vector <char> buffer;
+    for(int i = 0; i < (*reg).length(); i++)
+      buffer.push_back((*reg)[i]);
     int cont = *(int *)r.doOperation(ip, puerto,
                                    Message::allowedOperations::readWords,
-                                   (char *)reg, sizeof(string), len_reply);
+                                   (char *)&buffer[0], buffer.size(), len_reply);
     total_words += cont;
   } catch (const char *msg) {
     throw msg;
   }
 }
 
-void handler(const string & ip, uint16_t puerto, int pos){
+void handler(const string & ip, uint16_t puerto, int pos)
+{
 	for(int i = 0; i < book_words[pos].size(); ++i){
     try {
+      cout <<"from handler: "<< book_words[pos][i] << '\n';
   		sendWord(ip, puerto, &book_words[pos][i]);
-    } catch(const char *msg){
+    } catch(const char *msg)
+    {
       cerr << msg << "\n";
     }
 	}
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   string ip[num_servers];
   uint16_t puerto;
   cout << "Direcciones IPs de los servidores: ";
@@ -57,21 +67,26 @@ int main(int argc, char *argv[]) {
   ifstream fin(string(argv[2]),ifstream::in);
   string reg;
   int last = 0;
-  while (n-- && fin >> reg) {
+  while (n-- && fin >> reg)
+  {
           //int last = reg.celular[9] - '0';
           cout << reg << endl;
-          book_words[last%num_servers].push_back(reg);
+          book_words[last % num_servers].push_back(reg);
+          cout << book_words[0].size() << '\n';
           last++;
   }
+  cout << "--------" << endl;
   fclose(f);
   
-	for(int i = 0; i < num_servers; ++i){
+	for(int i = 0; i < num_servers; ++i)
+  {
 		ths.emplace_back(handler, ip[i], puerto, i);
 	}
 
-	for(int i = 0; i < num_servers; ++i){
-		ths[i].join();
+	for(int i = 0; i < num_servers; ++i)
+  {
+	  ths[i].join();
 	}
-  cout << total_words << endl;
+  cout << "percentaje: "<< total_words << endl;
   return 0;
 }

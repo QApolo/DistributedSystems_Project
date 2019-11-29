@@ -39,10 +39,10 @@ class Dictionary {
                { 
                    word.push_back(current_line[index++]);        
                }
-               std::cout << word << std::endl;
+              // std::cout << word << std::endl;
                existsWord.insert(word);
             }
-            std::cout << "---------------" << std::endl;
+            //std::cout << "---------------" << std::endl;
         }
         bool isWordInDictionary(std::string &word)
         {

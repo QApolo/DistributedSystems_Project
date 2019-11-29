@@ -12,11 +12,14 @@ Request.o: Request.cpp
 Reply.o: Reply.cpp
 	g++ -c Reply.cpp -Wall
 
+TextAnalyzer.o: TextAnalyzer.cpp
+	g++ -c TextAnalyzer.cpp -Wall
+
 client2: DatagramPacket.o DatagramSocket.o Request.o Reply.o client2.cpp
 	g++ DatagramPacket.o DatagramSocket.o Request.o Reply.o client2.cpp -o client2 -lpthread
 
-server: DatagramPacket.o DatagramSocket.o Request.o Reply.o server.cpp
-	g++ DatagramPacket.o DatagramSocket.o Request.o Reply.o server.cpp -o server
+server: DatagramPacket.o DatagramSocket.o Request.o Reply.o TextAnalyzer.o server.cpp
+	g++ DatagramPacket.o DatagramSocket.o Request.o Reply.o TextAnalyzer.o server.cpp -o server
 
 serverTime: serverTime.cpp Request.o Reply.o DatagramPacket.o DatagramSocket.o
 	g++ DatagramPacket.o DatagramSocket.o Request.o Reply.o serverTime.cpp -o serverTime -Wall

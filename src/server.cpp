@@ -16,24 +16,12 @@ typedef struct timeval TimeVal;
 
 using namespace std;
 
-struct registro {
-  char celular[11];
-  char CURP[19];
-  char partido[4];
-};
-
-set <string> nbd;
-
 FILE* f;
-FILE *fileTimes;
 
 void isr(int sig){
 	if(sig == SIGINT){
 		if(f){
 			fclose(f);
-		}
-		if(fileTimes){
-			fclose(fileTimes);
 		}
 		printf("Servidor cerrado.\n");
 		exit(0);
@@ -68,11 +56,13 @@ timeval divide(TimeVal a, int64_t k){
 	ans.tv_usec = ta%1000000;
 	return ans;
 }
-
+void log(string i)
+{
+	cout << "print log: ----> "+i << endl; 
+}
 int main(int argc, char *argv[]) {
 	signal(SIGINT, isr);
 
-	registro reg;
 	Dictionary dic;
 	dic.loadDictionary();
 	
@@ -93,25 +83,36 @@ int main(int argc, char *argv[]) {
 	cin >> puerto;
 	Reply reply(puerto);
 	//Request r;
-	cout << "Servidor iniciado...\n";
-	
-	string ip_time;
-	int puerto_time;
-
-	cin >> ip_time >> puerto_time;
+	cout << "Servidor iniciado<>...\n";
+	log("0");
 	
 	TimeVal tv_client, tv_server, tv_after, tv_real;
 	string current_word;
+	int val;
+	vector <char> buffer;
 	while (1) {
-		char res = 0;
+		log("1");
 		Message *msg = reply.getRequest();
-		current_word = *(string*)msg->arguments;
+		log("2");
+		cout << msg->length << endl;
+		//current_word = *(string*)msg->arguments;
+		cout << msg->arguments << endl;
 
+		buffer.resize(msg->length+1);
+		buffer = (vector<char>)*(msg->arguments);
+		current_word = string(buffer.begin(), buffer.end());
+		
+		log("3");
+		//cout << current_word << endl;
+		log("4");
 		if(msg->operationId == Message::allowedOperations::readWords)
 		{
-			int number = dic.isWordInDictionary(current_word);
+			cout << "enter here: "<<endl;
+			char number = !dic.isWordInDictionary(current_word);
 			reply.sendReply((char*)&number, sizeof(number));
 		}
+		log("5");
+		
 		/**if (msg->operationId == Message::allowedOperations::registerVote) {
 			string id = string(reg.celular) + string(reg.CURP) + string(reg.partido);
 			if (!nbd.count(id)) {
