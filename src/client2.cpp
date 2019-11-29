@@ -5,7 +5,7 @@
 #include <random>
 #include <string>
 #include <sys/time.h>
-
+#include "TextAnalyzer.cpp"
 // struct timeval {
 // 	time_t tv_sec; /* segundos */
 // 	suseconds_t tv_usec; /* microsegundos */
@@ -14,6 +14,32 @@
 typedef struct timeval TimeVal;
 
 using namespace std;
+
+class CleanBook 
+{
+  public:
+    vector <string> words;
+  public:
+    CleanBook(string path)
+    {
+      string chars = "\n\r «.;:1234567890!¡?¿*-\"\'<<>>»()[]";
+      ifstream file(path, ifstream::in);
+      string word;
+      //ofstream out("salida.txt");
+      while(file >> word)
+      {
+        Util::eraseAllSubStr(Util::lower(Util::myTrim(word, chars)), chars);
+        if(word != ""){
+          words.push_back(word);
+         // out << word;  
+        }
+      }
+     // out.close();
+    }
+    CleanBook()
+    {
+    }
+};
 
 Request r;
 const int num_servers = 1;
@@ -44,7 +70,7 @@ void handler(const string & ip, uint16_t puerto, int pos)
 {
 	for(int i = 0; i < book_words[pos].size(); ++i){
     try {
-      cout <<"from handler: "<< book_words[pos][i] << '\n';
+     // cout <<"from handler: "<< book_words[pos][i] << '\n';
   		sendWord(ip, puerto, &book_words[pos][i]);
     } catch(const char *msg)
     {
@@ -61,22 +87,35 @@ int main(int argc, char *argv[])
   for (int i = 0; i < num_servers; i++) cin >> ip[i];
   cout << "Puerto de los servidores: ";
   cin >> puerto;
-  int n = atoi(argv[1]);
+  //int n = atoi(argv[1]);
 
-  FILE *f = fopen(argv[2], "rb");
+  //FILE *f = fopen(argv[2], "rb");
   ifstream fin(string(argv[2]),ifstream::in);
+
   string reg;
   int last = 0;
-  while (n-- && fin >> reg)
+  /**s
+  size_t len_reply;
+  int size_dictionary = *(int *)r.doOperation(ip[0], puerto,
+                                   Message::allowedOperations::getDictSize,
+                                   NULL, 0, len_reply);**/
+  /**
+  while (fin >> reg)
   {
           //int last = reg.celular[9] - '0';
           cout << reg << endl;
           book_words[last % num_servers].push_back(reg);
           cout << book_words[0].size() << '\n';
           last++;
+  }**/
+  CleanBook cbook = CleanBook(string(argv[2]));
+  for(auto word: cbook.words)
+  {
+    book_words[last % num_servers].push_back(word);
+    last++;
   }
+  
   cout << "--------" << endl;
-  fclose(f);
   
 	for(int i = 0; i < num_servers; ++i)
   {
@@ -87,6 +126,6 @@ int main(int argc, char *argv[])
   {
 	  ths[i].join();
 	}
-  cout << "percentaje: "<< total_words << endl;
+  cout << "Texto comprensible al : " << 100.0 * double(last - total_words)/double(last) << " %"<< endl;
   return 0;
 }

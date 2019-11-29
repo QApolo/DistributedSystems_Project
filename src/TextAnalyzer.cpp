@@ -4,6 +4,50 @@
 #include <locale.h>
 #include <vector>
 
+class Util {
+    public:
+    static std::string& leftTrim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
+    {
+        str.erase(0, str.find_first_not_of(chars));
+        return str;
+    }
+    static std::string& lower(std::string& str, const std::string& chars = "\t\n\v\f\r ")
+    {
+        std::string low;
+        for(int j = 0; j < str.length(); j++)
+        {
+            if(str[j] >= 'A' && str[j] <= 'Z')
+            {
+                low.push_back(str[j] + 'a'-'A');
+            }
+            else
+                low.push_back(str[j]);
+        }
+        str = low;
+        return str;
+    }
+    static std::string& rightTrim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
+    {
+        str.erase(str.find_last_not_of(chars) + 1);
+        return str;
+    }
+
+    static std::string& myTrim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
+    {
+        return leftTrim(rightTrim(str, chars), chars);
+    }
+    static void eraseAllSubStr(std::string & mainStr, const std::string & toErase)
+    {
+        size_t pos = std::string::npos;
+    
+        // Search for the substring in string in a loop untill nothing is found
+        while ((pos  = mainStr.find(toErase) )!= std::string::npos)
+        {
+            // If found then erase it from string
+            mainStr.erase(pos, toErase.length());
+        }
+    }
+};
 class Dictionary {
     private:
         std::string path;
@@ -11,22 +55,7 @@ class Dictionary {
         std::set <std::string> existsWord;
     public:
 
-    std::string& leftTrim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
-    {
-        str.erase(0, str.find_first_not_of(chars));
-        return str;
-    }
     
-    std::string& rightTrim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
-    {
-        str.erase(str.find_last_not_of(chars) + 1);
-        return str;
-    }
-
-    std::string& myTrim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
-    {
-        return leftTrim(rightTrim(str, chars), chars);
-    }
         Dictionary()
         {
             path = "10000_formas.TXT";
@@ -56,7 +85,7 @@ class Dictionary {
                { 
                    word.push_back(current_line[index++]);        
                }
-              std::string cleanWord = myTrim(word);
+              std::string cleanWord = Util::myTrim(word);
                std::cout << cleanWord << std::endl;
                existsWord.insert(cleanWord);
             }
@@ -75,5 +104,9 @@ class Dictionary {
                 cont++;
             }
             return cont;
+        }
+        int getSize()
+        {
+            return existsWord.size();
         }
 };

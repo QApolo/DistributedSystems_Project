@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 
 	Dictionary dic;
 	dic.loadDictionary();
-	
+
 	uint16_t puerto;
 	cout << "Puerto en el que se va a escuchar: ";
 	cin >> puerto;
@@ -78,20 +78,26 @@ int main(int argc, char *argv[]) {
 	vector <char> buffer;
 	while (1) {
 		Message *msg = reply.getRequest();
-		cout << msg->length << endl;
-		current_word = "";
-		for(int k = 0; k < msg->length; k++)
-			current_word.push_back(msg->arguments[k]);
-		cout << current_word << endl;
+		
 		
 		if(msg->operationId == Message::allowedOperations::readWords)
 		{
-			cout << "enter here: "<<endl;
+			//cout << msg->length << endl;
+			current_word = "";
+			for(int k = 0; k < msg->length; k++)
+				current_word.push_back(msg->arguments[k]);
+			//cout << current_word << endl;
+			
 			int number = 0;
 			number = !dic.isWordInDictionary(current_word);
 
 			reply.sendReply((char*)&number, sizeof(number));
 		}
+		/**else if(msg->operationId == Message::allowedOperations::getDictSize)
+		{
+			int size = dic.getSize();
+			reply.sendReply((char*)&size, sizeof(size));
+		}**/
 		//log("5");
 		
 		/**if (msg->operationId == Message::allowedOperations::registerVote) {
