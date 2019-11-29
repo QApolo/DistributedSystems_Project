@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Ukranio Fest</title>
-		<link rel="stylesheet" href="CSS/main.css">
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-		<script
-			  src="https://code.jquery.com/jquery-3.4.1.js"
-			  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-			  crossorigin="anonymous"></script>
-		<script
-	  		src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-	  		integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-	  		crossorigin="anonymous"></script>
-	<!--script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
-	<script
-				type="text/javascript"
-				src="scripts/scripts.js"></script>
-	</head>
-	<body>
-		<div id="mainDiv" class="main_d">
-			<div id="inputs" class="contenedor_botones">
-				<form id="form_in" method="POST" action="upload ectype="multipart/form-data>
-					<input type="button"	id="entradaArchivo_clicker" 			class="boton" 		value="Seleccionar archivo de texto">
-					<input type="file"		id="archivo_in"	name="archivo_in" class="boton_in">
-					<input type="submit"	id="entradaArchivo_submiter" 			class="boton_in" 	value="Subir">
-				</form>
-			</div>
-			<div id="bar_div" class="barra_progresista">
-				<div id="progressbar" class="barrita"></div>
-			</div>
-		</div>
+  <head>
+    <meta charset="UTF-8">
+    <title>Ukranio Fest</title>
+    <link rel="stylesheet" href="CSS/main.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+    <script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+    <script
+  				type="text/javascript"
+  				src="scripts/scripts.js"></script>
+  </head>
+  <body>
+    <div id="mainDiv" class="main_d">
+      <form method="post"     id="filename" name="filename" onsubmit="return uploadFile();">
+
+        <input type="button"	id="entradaArchivo_clicker" 			    class="boton" 		value="Seleccionar archivo de texto">
+        <input type="file"    id="archivo_in" name="file" required  class="boton_in"/>
+        <input type="submit"  id="entradaArchivo_submiter"          class="boton_in"  value="Procesar"/>
+
+      </form>
+      <br>
+      <br>
+      <div id="output" class="salida"></div>
+    </div>
   </body>
 </html>
+
