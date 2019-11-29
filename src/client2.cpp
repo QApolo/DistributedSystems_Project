@@ -25,9 +25,9 @@ int total_words = 0;
 void sendWord(const string & ip, uint16_t puerto, string *reg) {
 	size_t len_reply;
   try {
-    cout << "from sendWord: ";
-    cout << *reg << endl;
-    cout << ip << " " << puerto << '\n';
+    //cout << "from sendWord: ";
+    //cout << *reg << endl;
+    //cout << ip << " " << puerto << '\n';
     vector <char> buffer;
     for(int i = 0; i < (*reg).length(); i++)
       buffer.push_back((*reg)[i]);

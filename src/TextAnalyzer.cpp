@@ -10,6 +10,23 @@ class Dictionary {
         std::ifstream file;
         std::set <std::string> existsWord;
     public:
+
+    std::string& leftTrim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
+    {
+        str.erase(0, str.find_first_not_of(chars));
+        return str;
+    }
+    
+    std::string& rightTrim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
+    {
+        str.erase(str.find_last_not_of(chars) + 1);
+        return str;
+    }
+
+    std::string& myTrim(std::string& str, const std::string& chars = "\t\n\v\f\r ")
+    {
+        return leftTrim(rightTrim(str, chars), chars);
+    }
         Dictionary()
         {
             path = "10000_formas.TXT";
@@ -39,8 +56,9 @@ class Dictionary {
                { 
                    word.push_back(current_line[index++]);        
                }
-              // std::cout << word << std::endl;
-               existsWord.insert(word);
+              std::string cleanWord = myTrim(word);
+               std::cout << cleanWord << std::endl;
+               existsWord.insert(cleanWord);
             }
             //std::cout << "---------------" << std::endl;
         }

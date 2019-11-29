@@ -66,52 +66,33 @@ int main(int argc, char *argv[]) {
 	Dictionary dic;
 	dic.loadDictionary();
 	
-
-	/**f = fopen(argv[1], "rb+");
-	fileTimes = fopen((string(argv[1])+"Time").c_str(), "ab+");
-	
-	if (f) {
-		while(fscanf(f, "%10s%18s%3s", reg.celular, reg.CURP, reg.partido) != EOF) {
-			nbd.insert({string(reg.celular), string(reg.CURP), string(reg.partido)});
-		}
-		fclose(f);
-	}
-
-	f = fopen(argv[1], "ab+");**/
 	uint16_t puerto;
 	cout << "Puerto en el que se va a escuchar: ";
 	cin >> puerto;
 	Reply reply(puerto);
-	//Request r;
 	cout << "Servidor iniciado<>...\n";
-	log("0");
 	
 	TimeVal tv_client, tv_server, tv_after, tv_real;
 	string current_word;
 	int val;
 	vector <char> buffer;
 	while (1) {
-		log("1");
 		Message *msg = reply.getRequest();
-		log("2");
 		cout << msg->length << endl;
-		//current_word = *(string*)msg->arguments;
-		cout << msg->arguments << endl;
-
-		buffer.resize(msg->length+1);
-		buffer = (vector<char>)*(msg->arguments);
-		current_word = string(buffer.begin(), buffer.end());
+		current_word = "";
+		for(int k = 0; k < msg->length; k++)
+			current_word.push_back(msg->arguments[k]);
+		cout << current_word << endl;
 		
-		log("3");
-		//cout << current_word << endl;
-		log("4");
 		if(msg->operationId == Message::allowedOperations::readWords)
 		{
 			cout << "enter here: "<<endl;
-			char number = !dic.isWordInDictionary(current_word);
+			int number = 0;
+			number = !dic.isWordInDictionary(current_word);
+
 			reply.sendReply((char*)&number, sizeof(number));
 		}
-		log("5");
+		//log("5");
 		
 		/**if (msg->operationId == Message::allowedOperations::registerVote) {
 			string id = string(reg.celular) + string(reg.CURP) + string(reg.partido);
