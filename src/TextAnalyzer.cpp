@@ -34,13 +34,14 @@ class Dictionary {
                while(current_line[index] < 'a' || current_line[index] > 'z') index++;
                std::string word;
                //std::cout << std::endl;
-               while(current_line[index] != 9)
+               while(current_line[index] != 9 && current_line[index] != 32)
                { 
                    word.push_back(current_line[index++]);        
                }
                std::cout << word << std::endl;
                existsWord.insert(word);
             }
+            std::cout << "---------------" << std::endl;
         }
         bool isWordInDictionary(std::string &word)
         {
