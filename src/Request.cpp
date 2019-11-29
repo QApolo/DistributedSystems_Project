@@ -28,7 +28,8 @@ char* Request::doOperation(const std::string addr, uint16_t iport, Message::allo
 	for (i = 0; i < 7; i++) {
 		try {
 			sock.send(pq);
-			sock.receiveTimeout(pqresp, 3, 0);
+			sock.receive(pqresp);
+			//sock.receiveTimeout(pqresp, 3, 0);
 			break;
 		} catch(const char* msg) {
 			std::cerr << msg << '\n';

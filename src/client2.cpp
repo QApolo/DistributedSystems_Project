@@ -24,6 +24,8 @@ class CleanBook
     {
       string chars = "\n\r «.;:1234567890!¡?¿*-\"\'<<>>»()[]";
       ifstream file(path, ifstream::in);
+      if(!file.is_open())
+        exit(-1);
       string word;
       //ofstream out("salida.txt");
       while(file >> word)
@@ -62,6 +64,7 @@ void sendWord(const string & ip, uint16_t puerto, string *reg) {
                                    (char *)&buffer[0], buffer.size(), len_reply);
     total_words += cont;
   } catch (const char *msg) {
+    
     throw msg;
   }
 }
@@ -83,14 +86,15 @@ int main(int argc, char *argv[])
 {
   string ip[num_servers];
   uint16_t puerto;
+  ifstream fin("inCl", iostream::in);
   cout << "Direcciones IPs de los servidores: ";
-  for (int i = 0; i < num_servers; i++) cin >> ip[i];
+  for (int i = 0; i < num_servers; i++) fin >> ip[i];
   cout << "Puerto de los servidores: ";
-  cin >> puerto;
+  fin >> puerto;
+  fin.close();
   //int n = atoi(argv[1]);
 
   //FILE *f = fopen(argv[2], "rb");
-  ifstream fin(string(argv[2]),ifstream::in);
 
   string reg;
   int last = 0;
@@ -108,7 +112,8 @@ int main(int argc, char *argv[])
           cout << book_words[0].size() << '\n';
           last++;
   }**/
-  CleanBook cbook = CleanBook(string(argv[2]));
+
+  CleanBook cbook = CleanBook("../Moongose/mongoose-master/examples/big_upload/libro.txt");
   for(auto word: cbook.words)
   {
     book_words[last % num_servers].push_back(word);
@@ -116,7 +121,15 @@ int main(int argc, char *argv[])
   }
   
   cout << "--------" << endl;
-  
+  //start
+  struct timeval tv;
+  gettimeofday(&tv,NULL);
+  char tmbuf[64];
+  char tmbuf2[64];
+  string s = tmbuf;
+  string s2 = tmbuf2;
+  double censec_i = tv.tv_usec/10000.0;
+ 
 	for(int i = 0; i < num_servers; ++i)
   {
 		ths.emplace_back(handler, ip[i], puerto, i);
@@ -126,6 +139,16 @@ int main(int argc, char *argv[])
   {
 	  ths[i].join();
 	}
+  gettimeofday(&tv,NULL);
+  double censec_f = tv.tv_usec / 10000.0;
+  double censec_final = censec_f - censec_i;  
+  string microsec = std::to_string(censec_final);
+
+
+  //end
   cout << "Texto comprensible al : " << 100.0 * double(last - total_words)/double(last) << " %"<< endl;
+  ofstream result("../Moongose/mongoose-master/examples/big_upload/resultado.txt");
+  result << 100.0 * double(last - total_words)/double(last) << " " << microsec << '\n';
+  result.close();
   return 0;
 }
